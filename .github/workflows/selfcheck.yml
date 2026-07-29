@@ -8,4 +8,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      # selfcheck really compiles every file via esbuild, so deps must exist.
+      - run: npm ci
       - run: node scripts/selfcheck.mjs
