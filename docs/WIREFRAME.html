@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peaceful Motors OS — Wireframe</title>
+<style>
+  :root {
+    --ground: #F1F2EF; --panel: #FAFAF8; --text: #20231F; --muted: #61675F;
+    --hair: #D9DCD4; --hair2: #C7CBC2;
+    --maroon: #7A1F1F; --green: #2E7D32; --green-ink: #276B2B; --amber: #B97710;
+    --on-accent: #FFFFFF;
+    /* the app's own surface — fixed, both themes; frames depict the real UI */
+    --ink: #141414; --app-panel: #1E1E1E; --app-line: #2E2E2E;
+    --app-field: #262626; --app-fieldline: #3F3F3F;
+    --app-text: #E7E7E7; --app-dim: #A3A3A3; --app-faint: #787878;
+    --lgreen: #9be3a0; --pale: #BFE3C0; --app-amber: #F59E0B;
+    --sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #131513; --panel: #1B1D1B; --text: #E9EBE5; --muted: #9BA197;
+      --hair: #2B2E2A; --hair2: #3A3E38; --green-ink: #8FCE94; --amber: #E0A33E;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #131513; --panel: #1B1D1B; --text: #E9EBE5; --muted: #9BA197;
+    --hair: #2B2E2A; --hair2: #3A3E38; --green-ink: #8FCE94; --amber: #E0A33E;
+  }
+  :root[data-theme="light"] {
+    --ground: #F1F2EF; --panel: #FAFAF8; --text: #20231F; --muted: #61675F;
+    --hair: #D9DCD4; --hair2: #C7CBC2; --green-ink: #276B2B; --amber: #B97710;
+  }
+
+  * { box-sizing: border-box; }
+  body { background: var(--ground); color: var(--text); font-family: var(--sans); line-height: 1.5; margin: 0; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 40px 20px 72px; }
+
+  /* ---------- masthead ---------- */
+  .brandchip { display: inline-block; background: var(--ink); border: 1px solid var(--maroon); border-radius: 10px; padding: 12px 20px; text-align: center; }
+  .brandchip .n { color: #FFFFFF; font-weight: 900; letter-spacing: .06em; font-size: 18px; }
+  .brandchip .t { color: var(--pale); font-style: italic; font-size: 11.5px; margin-top: 2px; }
+  h1 { font-size: clamp(24px, 4vw, 34px); font-weight: 800; letter-spacing: -.01em; margin: 18px 0 6px; text-wrap: balance; }
+  .meta { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .meta b { color: var(--text); font-weight: 600; }
+  .lede { max-width: 62ch; color: var(--muted); margin: 14px 0 0; font-size: 14.5px; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 22px; padding: 12px 14px; border: 1px solid var(--hair); border-radius: 8px; background: var(--panel); font-family: var(--mono); font-size: 11.5px; color: var(--muted); align-items: center; }
+  .lg { display: inline-flex; align-items: center; gap: 7px; }
+  .sw { width: 13px; height: 13px; border-radius: 3px; flex: none; }
+
+  /* ---------- sections ---------- */
+  section { margin-top: 56px; }
+  .eyebrow { font-family: var(--mono); font-size: 11.5px; letter-spacing: .14em; color: var(--muted); border-bottom: 1px solid var(--hair); padding-bottom: 8px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .eyebrow b { color: var(--green-ink); font-weight: 600; }
+  h2 { font-size: 20px; font-weight: 750; margin: 14px 0 4px; }
+  .sub { color: var(--muted); font-size: 13.5px; max-width: 68ch; margin: 0 0 20px; }
+
+  /* ---------- frames ---------- */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+  .cell { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .frame { background: var(--ink); border: 1px solid var(--hair2); border-radius: 12px; padding: 12px; color: var(--app-text); font-size: 12px; box-shadow: 0 1px 0 rgba(0,0,0,.04); }
+  .frame .bar { display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 9.5px; color: var(--app-faint); margin-bottom: 8px; }
+  .titleblock { text-align: center; margin: 2px 0 10px; }
+  .titleblock .n { font-weight: 900; letter-spacing: .05em; font-size: 14px; color: #fff; }
+  .titleblock .t { color: var(--pale); font-style: italic; font-size: 9.5px; }
+  .card { background: var(--app-panel); border: 1px solid var(--app-line); border-radius: 8px; padding: 9px; margin-top: 8px; }
+  .card:first-of-type { margin-top: 0; }
+  .card .h { color: var(--lgreen); font-weight: 800; font-size: 10.5px; letter-spacing: .03em; margin-bottom: 6px; }
+  .fld { background: var(--app-field); border: 1px solid var(--app-fieldline); border-radius: 6px; padding: 6px 8px; color: var(--app-dim); font-size: 10.5px; margin-top: 6px; min-height: 27px; display: flex; align-items: center; gap: 6px; }
+  .fld:first-child { margin-top: 0; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .row3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 6px; }
+  .btn { border-radius: 6px; padding: 7px 8px; text-align: center; font-weight: 700; font-size: 10.5px; color: #fff; margin-top: 8px; }
+  .btn.green { background: var(--green); }
+  .btn.maroon { background: var(--maroon); }
+  .btn.ghost { background: transparent; border: 1px solid #525252; color: #C9C9C9; font-weight: 500; }
+  .link { color: var(--app-faint); text-decoration: underline; font-size: 9.5px; text-align: center; margin-top: 7px; }
+  .note { color: var(--app-faint); font-size: 8.5px; margin-top: 7px; line-height: 1.45; }
+  .ph { border: 1.5px dashed #4A4A4A; border-radius: 6px; color: var(--app-faint); display: flex; align-items: center; justify-content: center; font-size: 9.5px; min-height: 44px; margin-top: 6px; }
+  .chk { display: flex; gap: 6px; align-items: flex-start; font-size: 9.5px; color: var(--app-dim); margin-top: 7px; }
+  .chk .b { width: 11px; height: 11px; border: 1px solid #6E6E6E; border-radius: 2.5px; flex: none; margin-top: 1px; }
+  .chk .b.on { background: var(--green); border-color: var(--green); }
+  .kv { display: flex; justify-content: space-between; font-size: 10px; color: var(--app-dim); padding: 3px 0; border-bottom: 1px solid var(--app-line); }
+  .kv:last-child { border-bottom: 0; }
+  .kv b { color: var(--app-text); font-variant-numeric: tabular-nums; }
+
+  /* callouts */
+  .co { display: inline-flex; width: 15px; height: 15px; border-radius: 50%; background: var(--app-amber); color: #201400; font-family: var(--mono); font-size: 9.5px; font-weight: 700; align-items: center; justify-content: center; flex: none; vertical-align: 1px; }
+  .notes { font-family: var(--mono); font-size: 11.5px; color: var(--muted); display: grid; gap: 6px; padding: 0 2px; }
+  .notes div { display: flex; gap: 8px; align-items: flex-start; }
+  .notes .co { margin-top: 1px; }
+  .notes em { font-style: normal; color: var(--green-ink); }
+  .fname { font-family: var(--mono); font-size: 12px; color: var(--text); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .fname .path { color: var(--muted); }
+  .new { font-family: var(--mono); font-size: 9px; letter-spacing: .08em; color: var(--green-ink); border: 1px solid var(--green-ink); border-radius: 999px; padding: 1px 7px; }
+
+  /* tab rail */
+  .rail { display: flex; gap: 8px; overflow-x: auto; padding: 14px; background: var(--ink); border: 1px solid var(--hair2); border-radius: 12px; }
+  .tab { flex: none; font-size: 11px; font-weight: 700; padding: 6px 12px; border-radius: 999px; background: var(--app-panel); border: 1px solid var(--app-line); color: var(--app-text); }
+  .tab.active { background: var(--maroon); border-color: var(--maroon); color: #fff; }
+  .tab.off { opacity: .38; font-weight: 500; text-decoration: line-through; text-decoration-thickness: 1px; }
+
+  /* flow strips + diagrams */
+  .flow { display: flex; align-items: stretch; gap: 8px; overflow-x: auto; padding: 4px 2px 10px; }
+  .fbox { flex: none; border: 1px solid var(--hair2); background: var(--panel); border-radius: 8px; padding: 8px 12px; font-family: var(--mono); font-size: 11.5px; min-width: 120px; }
+  .fbox .k { color: var(--muted); font-size: 9.5px; letter-spacing: .1em; display: block; margin-bottom: 3px; }
+  .fbox.hot { border-color: var(--maroon); }
+  .fbox.go { border-color: var(--green-ink); }
+  .arr { align-self: center; color: var(--muted); font-family: var(--mono); flex: none; }
+
+  .arch { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+  .col { border: 1px solid var(--hair); border-radius: 10px; background: var(--panel); padding: 14px; min-width: 0; }
+  .col > .ct { font-family: var(--mono); font-size: 10.5px; letter-spacing: .14em; color: var(--muted); margin-bottom: 10px; }
+  .node { border: 1px solid var(--hair2); border-radius: 7px; padding: 8px 10px; margin-top: 8px; font-size: 12.5px; }
+  .node:first-of-type { margin-top: 0; }
+  .node .d { font-family: var(--mono); font-size: 10.5px; color: var(--muted); margin-top: 2px; }
+  .node.maroonline { border-left: 3px solid var(--maroon); }
+  .node.greenline { border-left: 3px solid var(--green); }
+  .node.amberline { border-left: 3px solid var(--amber); }
+
+  /* customer-facing paper frame */
+  .paper { background: #FFFFFF; border: 1px solid var(--hair2); border-radius: 12px; padding: 14px; color: #241F1F; font-size: 11px; }
+  .paper .ph { border-color: #C9BBA8; color: #8A7C68; }
+  .paper .rule { border-top: 3px solid var(--maroon); margin: 8px 0; }
+  .paper .brand { color: var(--maroon); font-weight: 900; font-size: 14px; }
+  .paper .tag { color: var(--green); font-style: italic; font-size: 9.5px; }
+  .paper .box { background: #F5EDE6; border-radius: 8px; padding: 8px; font-size: 10px; margin-top: 8px; }
+  .paper .kv { color: #665C50; border-color: #EADFD2; }
+  .paper .kv b { color: #241F1F; }
+
+  footer { margin-top: 64px; border-top: 1px solid var(--hair); padding-top: 16px; font-family: var(--mono); font-size: 11.5px; color: var(--muted); display: grid; gap: 4px; }
+  footer b { color: var(--text); font-weight: 600; }
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <div class="brandchip">
+      <div class="n">PEACEFUL MOTORS</div>
+      <div class="t">An Ease of Mind is Simply Divine.</div>
+    </div>
+    <h1>Peaceful Motors OS — wireframe &amp; system map</h1>
+    <div class="meta">Next.js 15.5 · Supabase (Postgres + RLS · Auth · Storage) · PWA · <b>76 self-checks passing</b> · July 2026</div>
+    <p class="lede">Every screen below exists in the app today, drawn with its real copy and layout. Amber dots
+      mark where the backend does the work; <span class="new">NEW</span> marks the wiring added in this build —
+      roster invites, hashed PINs, lean tab defaults, the customer consent record, and media-complete backups.</p>
+    <div class="legend">
+      <span class="lg"><span class="sw" style="background:var(--maroon)"></span> active tab / primary action</span>
+      <span class="lg"><span class="sw" style="background:var(--green)"></span> go / save action</span>
+      <span class="lg"><span class="sw" style="background:var(--app-amber)"></span> <span class="co" style="position:static">n</span> backend callout</span>
+      <span class="lg"><span class="sw" style="background:transparent;border:1.5px dashed var(--hair2)"></span> photo / media placeholder</span>
+      <span class="lg"><span class="new">NEW</span> added in this build</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="eyebrow"><span>01 · <b>ACCESS</b> — how a session starts</span><span>middleware → guard() → RLS</span></div>
+    <h2>Two doors, on purpose</h2>
+    <p class="sub">The Supabase login protects the records — signed-out visitors never get past <span class="meta">/login</span>.
+      The PIN gate behind it stamps each job to the right tech. Accountability and security are separate layers, and both are server-checked now.</p>
+    <div class="grid">
+
+      <div class="cell">
+        <div class="fname"><span class="path">app/login/page.js</span> — Sign in</div>
+        <div class="frame">
+          <div class="bar"><span>◱ any device · PWA</span><span>/login</span></div>
+          <div class="titleblock"><div class="n">PEACEFUL MOTORS</div><div class="t">An Ease of Mind is Simply Divine.</div></div>
+          <div style="font-weight:700;font-size:11px;margin:2px 0 6px">Sign in</div>
+          <div class="fld">Email</div>
+          <div class="fld">Password</div>
+          <div class="btn green">Sign in <span class="co">1</span></div>
+          <div style="display:flex;justify-content:space-between;margin-top:8px">
+            <span class="link">Create an account</span><span class="link">Forgot password</span>
+          </div>
+          <div class="note">This is your account login — it protects the shop’s records. The PIN screen inside the app still stamps each job to the right tech.</div>
+        </div>
+        <div class="notes">
+          <div><span class="co">1</span><span>Supabase email + password session. <em>middleware.js</em> 307-redirects every signed-out request here; confirm &amp; reset land on <em>/auth/callback</em>.</span></div>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="fname"><span class="path">in-app</span> — PIN gate <span class="new">NEW wiring</span></div>
+        <div class="frame">
+          <div class="bar"><span>signed in</span><span>accountability layer</span></div>
+          <div class="titleblock"><div class="n">PEACEFUL MOTORS</div><div class="t">An Ease of Mind is Simply Divine.</div></div>
+          <div class="fld">Who’s working? ▾</div>
+          <div class="fld">PIN ••••</div>
+          <div class="btn maroon">Log in <span class="co">1</span></div>
+          <div class="link">Forgot your PIN? <span class="co">2</span></div>
+          <div class="btn ghost">I’m a customer — view my estimate / pay</div>
+          <div class="btn green">🚗 Customer community — free login, no repair needed <span class="co">3</span></div>
+        </div>
+        <div class="notes">
+          <div><span class="co">1</span><span><em>POST /api/pin/verify</em> — the PIN is checked server-side against the shop roster; hashes never reach the browser. Legacy plaintext rosters upgrade themselves on first login.</span></div>
+          <div><span class="co">2</span><span><em>POST /api/pin/reset</em> — server generates the temp PIN, emails it, stores only the scrypt hash.</span></div>
+          <div><span class="co">3</span><span>Customer portal entrance — no shop login required (switchable in Admin).</span></div>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="fname"><span class="path">in-app</span> — First run</div>
+        <div class="frame">
+          <div class="bar"><span>empty roster</span><span>runs once</span></div>
+          <div class="titleblock"><div class="n">PEACEFUL MOTORS</div><div class="t">An Ease of Mind is Simply Divine.</div></div>
+          <div style="font-weight:700;font-size:11px;margin:2px 0 6px">First run — create the owner login</div>
+          <div class="fld">Your name</div>
+          <div class="fld">Choose a PIN (4+ digits)</div>
+          <div class="fld">Your email (for PIN resets)</div>
+          <div class="chk"><span class="b"></span><span>I’ve read and agree to the Subscriber Agreement &amp; Disclaimer… (asked once — your acceptance is saved)</span></div>
+          <div class="btn green">Create owner &amp; enter <span class="co">1</span></div>
+        </div>
+        <div class="notes">
+          <div><span class="co">1</span><span>Owner PIN is hashed by <em>/api/pin/set</em> from day one; terms acceptance lands in the shared store with a timestamp.</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:26px">
+      <div class="flow">
+        <div class="fbox"><span class="k">VISITOR</span>any URL</div>
+        <span class="arr">──307──▸</span>
+        <div class="fbox hot"><span class="k">GATE 1</span>/login · Supabase session</div>
+        <span class="arr">──▸</span>
+        <div class="fbox hot"><span class="k">GATE 2</span>PIN — “Who’s working?”</div>
+        <span class="arr">──▸</span>
+        <div class="fbox go"><span class="k">WORK</span>tabs · estimates · invoices</div>
+        <span class="arr">│</span>
+        <div class="fbox"><span class="k">BRANCH</span>customer portal — no login</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow"><span>02 · <b>THE TAB RAIL</b> — sixteen built, eight on by default</span><span>tabEnabled() · settings.features.*</span></div>
+    <h2>Lean by default, everything reversible</h2>
+    <p class="sub">A fresh shop boots with exactly what a job needs: estimate, document, approve, invoice. The other eight tabs
+      stay built and ship dark — each is one checkbox in Admin → FEATURE SWITCHES. A shop that already saved settings keeps what it had.</p>
+    <div class="rail">
+      <span class="tab active">Details</span>
+      <span class="tab off">Bookings</span>
+      <span class="tab">Photo Estimate</span>
+      <span class="tab">Line Items</span>
+      <span class="tab off">Parts</span>
+      <span class="tab off">Fixes &amp; Times</span>
+      <span class="tab">Customer View</span>
+      <span class="tab">Invoice</span>
+      <span class="tab">Media</span>
+      <span class="tab off">Guides</span>
+      <span class="tab off">Community</span>
+      <span class="tab off">Academy</span>
+      <span class="tab off">Integrations</span>
+      <span class="tab off">Dashboard</span>
+      <span class="tab">Admin</span>
+      <span class="tab">Help</span>
+    </div>
+    <div class="notes" style="margin-top:10px">
+      <div><span class="new">NEW</span><span>Off-by-default set per the build plan’s cut list — struck-through above. Nothing was deleted; Integrations, Dashboard and Community gained their own switches so the owner can flip any of them back on.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow"><span>03 · <b>THE SIX JOB SCREENS</b> — estimate → document → approve → invoice</span><span>default-on</span></div>
+    <h2>A brake job, end to end</h2>
+    <p class="sub">Photos in, approved lines out, invoice printed. Records write to the shared store (Postgres, tenant-scoped);
+      photos and videos go to Storage and come back on any device.</p>
+    <div class="grid">
+
+      <div class="cell">
+        <div class="fname">Details</div>
+        <div class="frame">
+          <div class="bar"><span>tab 1/8</span><span>the job’s facts</span></div>
+          <div class="card"><div class="h">CUSTOMER</div>
+            <div class="row2"><div class="fld">Name</div><div class="fld">Phone</div></div>
+            <div class="row2"><div class="fld">Email</div><div class="fld">Address</div></div>
+            <div class="chk"><span class="b on"></span><span>OK to text this customer (TCPA consent on record) <span class="co">1</span></span></div>
+            <div class="btn green" style="padding:5px 8px;font-size:9.5px">Text status update <span class="co">2</span></div>
+          </div>
+          <div class="card"><div class="h">VEHICLE</div>
+            <div class="row2"><div class="fld">Year / Make / Model</div><div class="fld">VIN · scan ▣</div></div>
+            <div class="fld">Category: Domestic · Foreign · Exotic · Diesel · Lawn</div>
+          </div>
+          <div class="card"><div class="h">WORK AREAS &amp; LABOR RATES</div>
+            <div class="row2"><div class="fld">Area label</div><div class="fld">$ / hr</div></div>
+          </div>
+        </div>
+        <div class="notes">
+          <div><span class="co">1</span><span><span class="new">NEW</span> the toggle now writes a real row — <em>customers.notify_ok</em> + consent timestamp — whenever the estimate saves or a text is about to send.</span></div>
+          <div><span class="co">2</span><span><em>/api/sms</em> re-checks that row server-side before Twilio ever fires; STOP always wins.</span></div>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="fname">Photo Estimate</div>
+        <div class="frame">
+          <div class="bar"><span>tab 2/8</span><span>shoot → analyze → approve</span></div>
+          <div class="card"><div class="h">DAMAGE PHOTOS</div>
+            <div class="row2"><div class="ph">＋ photo</div><div class="ph">＋ photo</div></div>
+            <div class="btn maroon">Analyze <span class="co">1</span></div>
+          </div>
+          <div class="card"><div class="h">DRAFTED LINES — APPROVE EACH</div>
+            <div class="kv"><span>◻ Front pads &amp; rotors</span><b>1.5 h</b></div>
+            <div class="kv"><span>◻ Caliper — inspect</span><b>0.5 h</b></div>
+            <div class="note">Nothing hits the quote until a human approves the line.</div>
+          </div>
+        </div>
+        <div class="notes">
+          <div><span class="co">1</span><span><em>POST /api/claude</em> — the Anthropic key lives server-side only; the route is signed-in + rate-limited like every other.</span></div>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="fname">Line Items</div>
+        <div class="frame">
+          <div class="bar"><span>tab 3/8</span><span>parts + labor</span></div>
+          <div class="card"><div class="h">LINES</div>
+            <div class="row3"><div class="fld">Description</div><div class="fld">Cost</div><div class="fld">Hrs</div></div>
+            <div class="row3"><div class="fld">Part # · condition</div><div class="fld">Markup %</div><div class="fld">PT · RL <span class="co">1</span></div></div>
+          </div>
+          <div class="card"><div class="h">TOTALS</div>
+            <div class="kv"><span>Parts subtotal</span><b>$412.80</b></div>
+            <div class="kv"><span>Labor subtotal</span><b>$225.00</b></div>
+            <div class="kv"><span>Sublet · supplies · tax</span><b>$61.44</b></div>
+            <div class="kv"><span>GRAND TOTAL</span><b>$699.24</b></div>
+          </div>
+        </div>
+        <div class="notes">
+          <div><span class="co">1</span><span>PartsTech / RepairLink launchers copy “vehicle + part” to the clipboard and open the supplier — no scraped catalog data, ever.</span></div>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="fname">Media</div>
+        <div class="frame">
+          <div class="bar"><span>tab 4/8</span><span>cause &amp; correction</span></div>
+          <div class="card"><div class="h">PHOTOS &amp; VIDEOS</div>
+            <div class="row2"><div class="ph">▸ video</div><div class="ph">photo</div></div>
+            <div class="fld">Caption</div>
+            <div class="fld">Comment for the customer</div>
+          </div>
+          <div class="btn green">Download customer report <span class="co">1</span></div>
+          <div class="note">Media saves with the estimate <span class="co">2</span> and reloads on any device.</div>
+        </div>
+        <div class="notes">
+          <div><span class="co">1</span><span>One self-contained HTML file — photos re-inlined as bytes so it still opens next week.</span></div>
+          <div><span class="co">2</span><span>Downscaled 900px JPEG → Supabase Storage under <em>shop/estimate/</em>; the table keeps only paths.</span></div>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="fname">Customer View</div>
+        <div class="paper">
+          <div class="brand">PEACEFUL MOTORS</div>
+          <div class="tag">An Ease of Mind is Simply Divine.</div>
+          <div style="font-size:8.5px;color:#666">314-919-7456 · peacefulmotors@outlook.com · peacefulmotors.com</div>
+          <div class="rule"></div>
+          <div style="font-weight:700">REPAIR ESTIMATE #PM-2026-0412</div>
+          <div class="kv"><span>Front pads &amp; rotors — parts + labor</span><b>$637.80</b></div>
+          <div class="kv"><span>Shop supplies · tax</span><b>$61.44</b></div>
+          <div class="box"><b>Estimate total: $699.24</b> — hidden damage found at teardown may require a supplement.</div>
+          <div class="chk" style="color:#665C50"><span class="b" style="border-color:#B7A758"></span><span>Authorization to proceed — signature <span class="co">1</span></span></div>
+          <div class="note" style="color:#8A7C68">Warranty: 12 months / 12,000 miles, parts &amp; labor.</div>
+        </div>
+        <div class="notes">
+          <div><span class="co">1</span><span>Finger-drawn signature pad (optional per shop setting) — signature before wrenches turn.</span></div>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="fname">Invoice</div>
+        <div class="frame">
+          <div class="bar"><span>tab 6/8</span><span>get paid</span></div>
+          <div class="card"><div class="h">INVOICE</div>
+            <div class="row2"><div class="fld">Invoice # · from estimate</div><div class="fld">Status: DUE ▾</div></div>
+            <div class="kv"><span>Service call</span><b>$20.00</b></div>
+            <div class="kv"><span>Diag credit</span><b>−$40.00</b></div>
+          </div>
+          <div class="btn green">Collect payment <span class="co">1</span></div>
+          <div class="btn ghost">Send invoice by email</div>
+          <div class="btn green" style="opacity:.85">★ Request a Google review by text <span class="co">2</span></div>
+        </div>
+        <div class="notes">
+          <div><span class="co">1</span><span>Stripe payment link or the shop’s alt processor — payments stay processor-hosted, never in-app.</span></div>
+          <div><span class="co">2</span><span>Only offered once PAID, and only if the customer’s consent box is on.</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow"><span>04 · <b>OWNER SCREENS</b> — roster, switches, dials</span><span>owner / manager only</span></div>
+    <h2>Admin runs the shop; Dashboard watches it</h2>
+    <div class="grid">
+
+      <div class="cell">
+        <div class="fname">Admin — roster <span class="new">NEW wiring</span></div>
+        <div class="frame">
+          <div class="bar"><span>tab 7/8</span><span>owner-only sections</span></div>
+          <div class="card"><div class="h">TECHNICIAN LOGINS</div>
+            <div class="kv"><span>Marcus <span style="background:var(--green);color:#fff;border-radius:4px;font-size:7.5px;padding:1px 4px">admin</span></span><b>Owner ▾</b></div>
+            <div class="row3"><div class="fld">pay</div><div class="fld">email</div><div class="fld">•••• <span class="co">1</span></div></div>
+            <div class="row3"><div class="fld">Tech name</div><div class="fld">PIN (4+)</div><div class="fld">Email</div></div>
+            <div class="btn green">Add technician <span class="co">2</span></div>
+          </div>
+          <div class="card"><div class="h">FEATURE SWITCHES (THIS SHOP)</div>
+            <div class="chk"><span class="b"></span><span>Bookings board + online booking requests</span></div>
+            <div class="chk"><span class="b on"></span><span>Photo Estimate estimating</span></div>
+            <div class="chk"><span class="b"></span><span>Dashboard — saved estimates + backup <span class="co">3</span></span></div>
+          </div>
+        </div>
+        <div class="notes">
+          <div><span class="co">1</span><span><span class="new">NEW</span> the roster shows ••••, never the stored secret — typing here sets a new PIN via <em>/api/pin/set</em>; only the hash is kept.</span></div>
+          <div><span class="co">2</span><span><span class="new">NEW</span> same button, one more wire: <em>POST /api/roster</em> emails the tech a real login invite and attaches them to this shop with their role.</span></div>
+          <div><span class="co">3</span><span><span class="new">NEW</span> every switched-off tab lives here as one reversible checkbox.</span></div>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="fname">Admin — shop dials</div>
+        <div class="frame">
+          <div class="bar"><span>tab 7/8 · continued</span><span></span></div>
+          <div class="card"><div class="h">SHOP SETTINGS — PERMANENT DEFAULTS</div>
+            <div class="row3"><div class="fld">Rate $/hr</div><div class="fld">Markup %</div><div class="fld">Send-to email</div></div>
+            <div class="chk"><span class="b"></span><span>Require customer signature before starting the repair</span></div>
+            <div class="chk"><span class="b on"></span><span>Customer messaging enabled shop-wide (customer opt-out is never overridden)</span></div>
+          </div>
+          <div class="card"><div class="h">SHOP TEXTING NUMBER</div>
+            <div class="row2"><div class="fld">Area code</div><div class="fld" style="justify-content:center;background:var(--green);color:#fff;border-color:var(--green);font-weight:700">Get my shop number <span class="co">1</span></div></div>
+          </div>
+          <div class="card"><div class="h">PARTS MARKUP BY ZIP · LABOR GUIDES</div>
+            <div class="row2"><div class="fld">ZIP</div><div class="fld">markup %</div></div>
+          </div>
+        </div>
+        <div class="notes">
+          <div><span class="co">1</span><span><em>/api/phone</em> provisions a billable Twilio number — owner role required, on top of sign-in.</span></div>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="fname">Dashboard <span class="new">off by default</span></div>
+        <div class="frame" style="opacity:.92">
+          <div class="bar"><span>switchable</span><span>owner’s view</span></div>
+          <div class="card"><div class="h">SAVED ESTIMATES</div>
+            <div class="fld">Filter: All · New · Waiting · Finished · Closed</div>
+            <div class="kv"><span>PM-2026-0412 · Camry · Marcus</span><b>$699.24</b></div>
+            <div class="kv"><span>PM-2026-0411 · F-150 · J.T.</span><b>$1,240.10</b></div>
+          </div>
+          <div class="btn green">⭳ Backup everything (one JSON file) <span class="co">1</span></div>
+        </div>
+        <div class="notes">
+          <div><span class="co">1</span><span><span class="new">NEW</span> the dump now pulls every estimate’s photos and videos back out of Storage and inlines them as bytes — a backup that still works after the signed URLs die.</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow"><span>05 · <b>CUSTOMER SIDE</b> — no account needed</span><span>portal entrance on the login screen</span></div>
+    <h2>The customer’s two artifacts</h2>
+    <div class="grid">
+
+      <div class="cell">
+        <div class="fname">Customer portal</div>
+        <div class="frame">
+          <div class="bar"><span>public branch</span><span>rate-limited</span></div>
+          <div class="titleblock"><div class="n">PEACEFUL MOTORS</div><div class="t">An Ease of Mind is Simply Divine.</div></div>
+          <div class="card"><div class="h">FIND MY ESTIMATE</div>
+            <div class="row2"><div class="fld">Phone or PM-2026-…</div><div class="fld" style="justify-content:center;background:var(--green);border-color:var(--green);color:#fff;font-weight:700">Find</div></div>
+          </div>
+          <div class="card"><div class="h">BOOK A SERVICE — NO ACCOUNT NEEDED</div>
+            <div class="row2"><div class="fld">Your name</div><div class="fld">Phone <span class="co">1</span></div></div>
+            <div class="fld">What’s it doing? Where’s the vehicle?</div>
+            <div class="fld">Reach me by: ◉ Text ○ Email</div>
+          </div>
+          <div class="note">🚗 Community — free login for neighbors: tips, parts swap, shop replies. <span class="co">2</span></div>
+        </div>
+        <div class="notes">
+          <div><span class="co">1</span><span>Phone verify is real now: 6-digit code generated server-side, hashed, 10-minute expiry, 5 tries (<em>/api/verify</em>).</span></div>
+          <div><span class="co">2</span><span>Booking lands on the shop’s board as “Requested”; the ack message honors STOP from the first text.</span></div>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="fname">Customer report (downloaded file)</div>
+        <div class="paper">
+          <div class="brand">PEACEFUL MOTORS</div>
+          <div class="tag">An Ease of Mind is Simply Divine. <span class="co">1</span></div>
+          <div class="rule"></div>
+          <div style="font-size:10px"><b>Sarah</b> — here’s what we found on your <b>2019 Camry</b> (PM-2026-0412).</div>
+          <div style="color:var(--maroon);font-weight:800;font-size:9.5px;margin-top:6px">Front rotor — heat scoring</div>
+          <div class="ph" style="min-height:52px">photo — inlined bytes, opens offline</div>
+          <div class="box"><b>Estimate total: $699.24</b> — full written estimate provided separately.</div>
+          <div class="note" style="color:#8A7C68">Questions? Call or text 314-919-7456. Warranty: 12 months / 12,000 miles, parts &amp; labor.</div>
+        </div>
+        <div class="notes">
+          <div><span class="co">1</span><span>Yes, the tagline — a missing <em>$</em> once printed “{BRAND.tagline}” literally on every report. Fixed, with a self-check so it can’t come back.</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow"><span>06 · <b>UNDER THE HOOD</b> — one request’s path</span><span>every arrow is enforced, not advisory</span></div>
+    <h2>Architecture</h2>
+    <div class="arch">
+      <div class="col">
+        <div class="ct">CLIENT — ANY DEVICE</div>
+        <div class="node maroonline">PeacefulEstimate.jsx<div class="d">one component, every screen · PWA install</div></div>
+        <div class="node">lib/store.js<div class="d">get / set / list — offline outbox replays; legacy localStorage lifts to cloud once</div></div>
+        <div class="node">lib/media.js<div class="d">downscale → Storage · signed URLs back · inline for report + backup</div></div>
+        <div class="node greenline">lib/customers.js<div class="d">NEW — consent record upsert, matched by phone digits</div></div>
+      </div>
+      <div class="col">
+        <div class="ct">NEXT.JS SERVER — THE FRONT DOOR</div>
+        <div class="node maroonline">middleware.js<div class="d">refreshes session · 307s signed-out visitors to /login</div></div>
+        <div class="node maroonline">lib/guard.js<div class="d">sign-in + role + rate limit — first statement of every route</div></div>
+        <div class="node">/api/claude · sms · email · phone · parts · carfax · verify<div class="d">Twilio, Resend, Anthropic keys live here only · consent gate on sms</div></div>
+        <div class="node greenline">/api/roster · /api/pin/verify · set · reset<div class="d">NEW — invites, scrypt PIN hashes, server-side PIN checks</div></div>
+      </div>
+      <div class="col">
+        <div class="ct">SUPABASE + EXTERNAL</div>
+        <div class="node maroonline">Postgres + RLS<div class="d">shop_id by database default — the browser never sends it, so it can’t spoof it</div></div>
+        <div class="node">pm_store · media · customers · shop_users · notifications<div class="d">phone_verifications + rate_hits: service-key only, no policies on purpose</div></div>
+        <div class="node">Auth · Storage<div class="d">email invites · media bucket scoped per shop folder</div></div>
+        <div class="node amberline">Anthropic · Twilio · Resend · Stripe link<div class="d">estimating · texts · email · hosted payments</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow"><span>07 · <b>A JOB’S LIFE</b> — and the consent gate every text passes</span><span>STOP always wins</span></div>
+    <h2>Status flow</h2>
+    <div class="flow" style="margin-top:14px">
+      <div class="fbox"><span class="k">STATUS</span>Draft</div><span class="arr">▸</span>
+      <div class="fbox"><span class="k">STATUS</span>Review</div><span class="arr">▸</span>
+      <div class="fbox go"><span class="k">SIGNED</span>Approved</div><span class="arr">▸</span>
+      <div class="fbox"><span class="k">WRENCHES</span>In Progress</div><span class="arr">▸</span>
+      <div class="fbox"><span class="k">STATUS</span>Completed</div><span class="arr">▸</span>
+      <div class="fbox hot"><span class="k">INVOICE</span>Due → PAID</div>
+    </div>
+    <h2 style="margin-top:26px">Before any text leaves the shop</h2>
+    <div class="flow">
+      <div class="fbox"><span class="k">APP</span>“Text status update”</div><span class="arr">▸</span>
+      <div class="fbox"><span class="k">SHOP SWITCH</span>msgMaster on?</div><span class="arr">▸</span>
+      <div class="fbox"><span class="k">RECORD</span>customer on file <span class="new">NEW</span></div><span class="arr">▸</span>
+      <div class="fbox hot"><span class="k">SERVER</span>/api/sms · notify_ok?</div><span class="arr">▸</span>
+      <div class="fbox go"><span class="k">SEND</span>Twilio · “Reply STOP to opt out”</div>
+    </div>
+    <div class="notes" style="margin-top:8px">
+      <div><span class="co">✓</span><span>The Admin master switch can silence the whole shop but can never override a customer’s own opt-out — that rule is enforced server-side, per send.</span></div>
+    </div>
+  </section>
+
+  <footer>
+    <div><b>Peaceful Motors OS</b> · wireframe &amp; system map · drawn from the code, not from memory</div>
+    <div>Repo: README.md — setup &amp; verification · CLAUDE.md — working rules · docs/ — audit, build plan, change log</div>
+    <div>Verified this build: npm install clean · 76/76 self-checks · production build, 17 routes · live 307/401 gate probes</div>
+  </footer>
+
+</div>
+</body>
+</html>
